@@ -6,14 +6,14 @@ const checkStakeEnabled = checkStakeEnabledGenerator({
     errorClasses: [
       {
         className: '',
-        message: 'ставка заблокирована',
+        message: '',
       },
     ],
   },
   errorsCheck: [
     {
       selector: '',
-      message: 'ставка заблокирована',
+      message: '',
     },
   ],
 });
