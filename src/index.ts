@@ -10,15 +10,6 @@ import initialize from './initialization';
 import afterSuccesfulStake from './worker_callbacks/afterSuccesfulStake';
 import fastLoad from './fastLoad';
 
-(async (): Promise<void> => {
-  log(`Загрузка страницы`, 'steelblue');
-  if (!worker.IsShowStake) {
-    initialize();
-  } else {
-    showStake();
-  }
-})();
-
 worker.SetCallBacks(
   log,
   getStakeInfo,
@@ -30,3 +21,12 @@ worker.SetCallBacks(
 );
 
 worker.SetFastCallback(fastLoad);
+
+(async (): Promise<void> => {
+  log(`Загрузка страницы`, 'steelblue');
+  if (!worker.IsShowStake) {
+    initialize();
+  } else {
+    showStake();
+  }
+})();

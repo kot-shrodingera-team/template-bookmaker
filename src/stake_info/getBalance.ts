@@ -1,16 +1,14 @@
 import {
   balanceReadyGenerator,
   getBalanceGenerator,
-} from '@kot-shrodingera-team/germes-generators/stake_info';
+} from '@kot-shrodingera-team/germes-generators/stake_info/getBalance';
 
 export const balanceReady = balanceReadyGenerator({
   balanceSelector: '',
-  balanceRegex: /^(\d+(?:\.\d+)?)$/i,
 });
 
 const getBalance = getBalanceGenerator({
   balanceSelector: '',
-  balanceRegex: /^(\d+(?:\.\d+)?)$/i,
 });
 
 export const updateBalance = (): void => {
