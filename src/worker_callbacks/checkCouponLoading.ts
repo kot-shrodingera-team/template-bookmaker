@@ -6,8 +6,9 @@ const check = () => {
 };
 
 const checkCouponLoading = checkCouponLoadingGenerator({
-  bookmakerName: '',
   getDoStakeTime,
+  bookmakerName: '',
+  timeout: 60000,
   check,
 });
 

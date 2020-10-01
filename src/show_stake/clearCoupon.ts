@@ -5,11 +5,11 @@ import getMaximumStake from '../stake_info/getMaximumStake';
 const apiClear = (): void => {};
 
 const clearCoupon = clearCouponGenerator({
-  apiClear,
-  clearMode: 'all-only',
-  clearAllSelector: '',
-  clearSingleSelector: '',
   getStakeCount,
+  apiClear,
+  clearSingleSelector: '',
+  clearAllSelector: '',
+  clearMode: 'all-only',
   maxUnload: {
     getMaximumStake,
   },

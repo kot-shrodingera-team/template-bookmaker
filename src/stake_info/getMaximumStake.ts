@@ -4,10 +4,12 @@ import getMaximumStakeGenerator, {
 
 export const maximumStakeReady = maximumStakeReadyGenerator({
   maximumStakeElementSelector: '',
+  maximumStakeRegex: null,
 });
 
 const getMaximumStake = getMaximumStakeGenerator({
   maximumStakeElementSelector: '',
+  maximumStakeRegex: null,
 });
 
 export default getMaximumStake;

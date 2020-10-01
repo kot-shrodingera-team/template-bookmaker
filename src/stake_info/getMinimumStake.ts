@@ -4,10 +4,12 @@ import getMinimumStakeGenerator, {
 
 export const minimumStakeReady = minimumStakeReadyGenerator({
   minimumStakeElementSelector: '',
+  minimumStakeRegex: null,
 });
 
 const getMinimumStake = getMinimumStakeGenerator({
   minimumStakeElementSelector: '',
+  minimumStakeRegex: null,
 });
 
 export default getMinimumStake;

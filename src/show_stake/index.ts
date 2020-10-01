@@ -30,8 +30,7 @@ const showStake = async (): Promise<void> => {
 
   const betAdded = await awaiter(() => getStakeCount() === 1);
   if (!betAdded) {
-    log('Ставка не попала в купон', 'red');
-    jsFail();
+    jsFail('Ставка не попала в купон');
     return;
   }
   log('Ставка успешно открыта', 'green');

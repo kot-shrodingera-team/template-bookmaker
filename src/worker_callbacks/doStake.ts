@@ -6,19 +6,23 @@ const preCheck = (): boolean => {
   return true;
 };
 
-const postCheck = (): void => {};
+const postCheck = (): boolean => {
+  return true;
+};
+
 const doStake = doStakeGenerator({
   preCheck,
   doStakeButtonSelector: '',
   getCoefficient,
+  disabledCheck: false,
   errorClasses: [
     {
       className: '',
       message: '',
     },
   ],
-  clearDoStakeTime,
   postCheck,
+  clearDoStakeTime,
 });
 
 export default doStake;

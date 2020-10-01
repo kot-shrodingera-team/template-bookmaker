@@ -6,8 +6,8 @@ const preCheck = (): boolean => {
 };
 
 const checkStakeEnabled = checkStakeEnabledGenerator({
-  getStakeCount,
   preCheck,
+  getStakeCount,
   betCheck: {
     selector: '',
     errorClasses: [
