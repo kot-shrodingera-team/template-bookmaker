@@ -1,17 +1,17 @@
 {
   "name": "@kot-shrodingera-team/template-bookmaker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "devDependencies": {
     "@kot-shrodingera-team/eslint-config-germes": "^1.0.4",
     "@kot-shrodingera-team/prettier-config-germes": "^1.0.1",
     "@kot-shrodingera-team/rollup-config-germes": "^1.0.4",
     "@kot-shrodingera-team/typescript-config-germes": "^1.0.3",
     "@kot-shrodingera-team/worker-declaration": "^1.0.5",
-    "@kot-shrodingera-team/germes-generators": "^1.0.56",
+    "@kot-shrodingera-team/germes-generators": "^1.0.59",
     "@kot-shrodingera-team/germes-utils": "^1.0.12",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^6.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-airbnb-typescript": "^11.0.0",
@@ -20,7 +20,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2",
-    "rollup": "^2.28.2",
+    "rollup": "^2.29.0",
     "typescript": "^4.0.3"
   }
 }

@@ -2,7 +2,7 @@ import authorizeGenerator from '@kot-shrodingera-team/germes-generators/initiali
 import { updateBalance, balanceReady } from '../stake_info/getBalance';
 import afterSuccesfulLogin from './afterSuccesfulLogin';
 
-const changeToPhoneLogin = async (): Promise<boolean> => {
+const setLoginType = async (): Promise<boolean> => {
   return true;
 };
 
@@ -12,10 +12,7 @@ const authorize = authorizeGenerator({
     openedSelector: '',
     afterOpenDelay: 1000,
   },
-  phoneLogin: {
-    changeToPhoneLogin,
-    phoneInputSelector: '',
-  },
+  setLoginType,
   loginInputSelector: '',
   passwordInputSelector: '',
   submitButtonSelector: '',

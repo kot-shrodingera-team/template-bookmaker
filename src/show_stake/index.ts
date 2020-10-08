@@ -1,8 +1,13 @@
-import { log, awaiter } from '@kot-shrodingera-team/germes-utils';
+import { log, checkUrl } from '@kot-shrodingera-team/germes-utils';
 import clearCoupon from './clearCoupon';
-import getStakeCount from '../stake_info/getStakeCount';
 import { updateBalance } from '../stake_info/getBalance';
 import setBetAcceptMode from './setBetAcceptMode';
+import checkAuth, { authStateReady } from '../stake_info/checkAuth';
+import JsFailError from './errors/jsFailError';
+import NewUrlError from './errors/newUrlError';
+import openBet from './openBet';
+import openEvent from './openEvent';
+import preCheck from './preCheck';
 
 let couponOpenning = false;
 
@@ -17,26 +22,48 @@ const jsFail = (message = ''): void => {
 };
 
 const showStake = async (): Promise<void> => {
-  // Поиск ставки
+  try {
+    if (!checkUrl()) {
+      log('Открыта не страница конторы (или зеркала)', 'crimson');
+      window.location.href = new URL(worker.BookmakerMainUrl).href;
+      throw new NewUrlError('Открывает страницу БК');
+    }
 
-  const couponCleared = await clearCoupon();
-  if (!couponCleared) {
-    jsFail('Не удалось очистить купон');
-    return;
+    await authStateReady();
+    worker.Islogin = checkAuth();
+    worker.JSLogined();
+    if (!worker.Islogin) {
+      jsFail('Нет авторизации');
+      return;
+    }
+    log('Есть авторизация', 'steelblue');
+
+    const couponCleared = await clearCoupon();
+    if (!couponCleared) {
+      throw new JsFailError('Не удалось очистить купон');
+    }
+    updateBalance();
+
+    await preCheck();
+
+    await openEvent();
+
+    await openBet();
+
+    log('Ставка успешно открыта', 'green');
+    setBetAcceptMode();
+    couponOpenning = false;
+    worker.JSStop();
+  } catch (error) {
+    if (error instanceof JsFailError) {
+      log(error.message, 'red');
+      couponOpenning = false;
+      worker.JSFail();
+    }
+    if (error instanceof NewUrlError) {
+      log(error.message, 'orange');
+    }
   }
-  updateBalance();
-
-  // Открытие ставки
-
-  const betAdded = await awaiter(() => getStakeCount() === 1);
-  if (!betAdded) {
-    jsFail('Ставка не попала в купон');
-    return;
-  }
-  log('Ставка успешно открыта', 'green');
-  setBetAcceptMode();
-  couponOpenning = false;
-  worker.JSStop();
 };
 
 export default showStake;
