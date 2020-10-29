@@ -1,6 +1,6 @@
 import setStakeSumGenerator from '@kot-shrodingera-team/germes-generators/worker_callbacks/setStakeSum';
 
-const preInputCheck = (): boolean => {
+const preInputCheck = (sum: number): boolean => {
   return true;
 };
 
