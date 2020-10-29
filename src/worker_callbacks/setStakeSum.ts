@@ -6,7 +6,9 @@ const preInputCheck = (sum: number): boolean => {
 
 const setStakeSum = setStakeSumGenerator({
   sumInputSelector: '',
-  alreadySetCheck: true,
+  alreadySetCheck: {
+    falseOnSumChange: false,
+  },
   inputType: 'fireEvent',
   fireEventName: 'input',
   preInputCheck,
