@@ -8,6 +8,7 @@ const setStakeSum = setStakeSumGenerator({
   sumInputSelector: '',
   alreadySetCheck: true,
   inputType: 'fireEvent',
+  fireEventName: 'input',
   preInputCheck,
 });
 
