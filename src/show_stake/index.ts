@@ -13,15 +13,9 @@ let couponOpenning = false;
 
 export const isCouponOpenning = (): boolean => couponOpenning;
 
-const jsFail = (message = ''): void => {
-  if (message) {
-    log(message, 'red');
-  }
-  couponOpenning = false;
-  worker.JSFail();
-};
-
 const showStake = async (): Promise<void> => {
+  localStorage.setItem('couponOpening', '1');
+  couponOpenning = true;
   try {
     if (!checkUrl()) {
       log('Открыта не страница конторы (или зеркала)', 'crimson');
@@ -33,8 +27,7 @@ const showStake = async (): Promise<void> => {
     worker.Islogin = checkAuth();
     worker.JSLogined();
     if (!worker.Islogin) {
-      jsFail('Нет авторизации');
-      return;
+      throw new JsFailError('Нет авторизации');
     }
     log('Есть авторизация', 'steelblue');
 
@@ -58,6 +51,7 @@ const showStake = async (): Promise<void> => {
     if (error instanceof JsFailError) {
       log(error.message, 'red');
       couponOpenning = false;
+      localStorage.setItem('couponOpening', '0');
       worker.JSFail();
     }
     if (error instanceof NewUrlError) {
