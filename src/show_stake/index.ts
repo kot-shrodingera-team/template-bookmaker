@@ -46,6 +46,7 @@ const showStake = async (): Promise<void> => {
     log('Ставка успешно открыта', 'green');
     setBetAcceptMode();
     couponOpenning = false;
+    localStorage.setItem('couponOpening', '0');
     worker.JSStop();
   } catch (error) {
     if (error instanceof JsFailError) {

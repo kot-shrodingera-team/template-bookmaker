@@ -14,7 +14,7 @@ const doStake = doStakeGenerator({
   preCheck,
   doStakeButtonSelector: '',
   getCoefficient,
-  disabledCheck: false,
+  disabledCheck: true,
   errorClasses: [
     {
       className: '',

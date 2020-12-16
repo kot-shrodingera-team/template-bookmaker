@@ -10,7 +10,9 @@ const authorize = authorizeGenerator({
   openForm: {
     selector: '',
     openedSelector: '',
-    afterOpenDelay: 1000,
+    loopCount: 10,
+    triesInterval: 1000,
+    afterOpenDelay: 0,
   },
   setLoginType,
   loginInputSelector: '',

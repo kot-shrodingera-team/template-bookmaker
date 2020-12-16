@@ -3,7 +3,7 @@ import getCurrentSumGenerator from '@kot-shrodingera-team/germes-generators/stak
 const getCurrentSum = getCurrentSumGenerator({
   sumInput: '',
   zeroValues: [],
-  currentSumRegex: null,
+  currentSumRegex: /(\d+(?:\.\d+)?)/,
 });
 
 export default getCurrentSum;

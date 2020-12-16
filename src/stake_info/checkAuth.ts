@@ -6,7 +6,7 @@ export const authStateReady = authStateReadyGenerator({
   noAuthElementSelector: '',
   authElementSelector: '',
   maxDelayAfterNoAuthElementAppeared: 0,
-  logging: false,
+  logging: true,
 });
 
 const checkAuth = checkAuthGenerator({

@@ -5,12 +5,26 @@ import {
 
 export const balanceReady = balanceReadyGenerator({
   balanceSelector: '',
-  balanceRegex: null,
+  balanceRegex: /(\d+(?:\.\d+)?)/,
+  replaceDataArray: [
+    {
+      searchValue: '',
+      replaceValue: '',
+    },
+  ],
+  removeRegex: /[\s,']/g,
 });
 
 const getBalance = getBalanceGenerator({
   balanceSelector: '',
-  balanceRegex: null,
+  balanceRegex: /(\d+(?:\.\d+)?)/,
+  replaceDataArray: [
+    {
+      searchValue: '',
+      replaceValue: '',
+    },
+  ],
+  removeRegex: /[\s,']/g,
 });
 
 export const updateBalance = (): void => {

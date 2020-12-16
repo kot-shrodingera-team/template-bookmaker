@@ -6,9 +6,9 @@ const getResultCoefficient = getCoefficientGenerator({
 });
 
 const afterSuccesfulStake = (): void => {
-  log('Обновление итогового коэффициента', 'steelbue');
+  log('Обновление итогового коэффициента', 'steelblue');
   const resultCoefficient = getResultCoefficient();
-  if (resultCoefficient !== worker.StakeInfo.Coef) {
+  if (resultCoefficient && resultCoefficient !== worker.StakeInfo.Coef) {
     log(
       `Коеффициент изменился: ${worker.StakeInfo.Coef} => ${resultCoefficient}`,
       'orange'

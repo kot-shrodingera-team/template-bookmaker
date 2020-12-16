@@ -3,9 +3,9 @@ import getStakeCount from '../stake_info/getStakeCount';
 import JsFailError from './errors/jsFailError';
 
 const openBet = async (): Promise<void> => {
-  const betId = worker.BetId.split('_')[1];
+  const [betId] = worker.BetId.split('_');
 
-  const bet = (await getElement(`span[id*="${betId}"]`)) as HTMLElement;
+  const bet = (await getElement(`[id*="${betId}"]`)) as HTMLElement;
 
   if (!bet) {
     throw new JsFailError('Ставка не найдена');

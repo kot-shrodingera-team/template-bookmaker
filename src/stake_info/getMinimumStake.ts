@@ -4,12 +4,26 @@ import getMinimumStakeGenerator, {
 
 export const minimumStakeReady = minimumStakeReadyGenerator({
   minimumStakeElementSelector: '',
-  minimumStakeRegex: null,
+  minimumStakeRegex: /(\d+(?:\.\d+)?)/,
+  replaceDataArray: [
+    {
+      searchValue: '',
+      replaceValue: '',
+    },
+  ],
+  removeRegex: /[\s,']/g,
 });
 
 const getMinimumStake = getMinimumStakeGenerator({
   minimumStakeElementSelector: '',
-  minimumStakeRegex: null,
+  minimumStakeRegex: /(\d+(?:\.\d+)?)/,
+  replaceDataArray: [
+    {
+      searchValue: '',
+      replaceValue: '',
+    },
+  ],
+  removeRegex: /[\s,']/g,
 });
 
 export default getMinimumStake;

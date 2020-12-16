@@ -1,9 +1,9 @@
-interface BookmakerApi {
-  data: string;
-}
+// interface BookmakerApi {
+//   data: string;
+// }
 
 declare global {
-  const api: BookmakerApi;
+  // const api: BookmakerApi;
 }
 
 export default {};
