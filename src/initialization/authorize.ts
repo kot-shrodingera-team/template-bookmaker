@@ -19,6 +19,7 @@ const authorize = authorizeGenerator({
   passwordInputSelector: '',
   submitButtonSelector: '',
   inputType: 'fireEvent',
+  fireEventNames: ['input'],
   beforeSubmitDelay: 0,
   captchaSelector: '',
   loginedWait: {
