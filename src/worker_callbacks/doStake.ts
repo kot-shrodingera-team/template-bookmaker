@@ -13,16 +13,17 @@ const postCheck = (): boolean => {
 const doStake = doStakeGenerator({
   preCheck,
   doStakeButtonSelector: '',
-  getCoefficient,
-  disabledCheck: true,
   errorClasses: [
     {
       className: '',
       message: '',
     },
   ],
+  disabledCheck: false,
+  getCoefficient,
   postCheck,
   clearDoStakeTime,
+  context: () => document,
 });
 
 export default doStake;

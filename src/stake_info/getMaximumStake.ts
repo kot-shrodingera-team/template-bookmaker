@@ -2,28 +2,31 @@ import getMaximumStakeGenerator, {
   maximumStakeReadyGenerator,
 } from '@kot-shrodingera-team/germes-generators/stake_info/getMaximumStake';
 
+const maximumStakeSelector = '';
+const maximumStakeRegex = /(\d+(?:\.\d+)?)/;
+const replaceDataArray = [
+  {
+    searchValue: '',
+    replaceValue: '',
+  },
+];
+const removeRegex = /[\s,']/g;
+
 export const maximumStakeReady = maximumStakeReadyGenerator({
-  maximumStakeElementSelector: '',
-  maximumStakeRegex: /(\d+(?:\.\d+)?)/,
-  replaceDataArray: [
-    {
-      searchValue: '',
-      replaceValue: '',
-    },
-  ],
-  removeRegex: /[\s,']/g,
+  maximumStakeSelector,
+  maximumStakeRegex,
+  replaceDataArray,
+  removeRegex,
+  context: () => document,
 });
 
 const getMaximumStake = getMaximumStakeGenerator({
-  maximumStakeElementSelector: '',
-  maximumStakeRegex: /(\d+(?:\.\d+)?)/,
-  replaceDataArray: [
-    {
-      searchValue: '',
-      replaceValue: '',
-    },
-  ],
-  removeRegex: /[\s,']/g,
+  maximumStakeSelector,
+  maximumStakeRegex,
+  replaceDataArray,
+  removeRegex,
+  disableLog: false,
+  context: () => document,
 });
 
 export default getMaximumStake;

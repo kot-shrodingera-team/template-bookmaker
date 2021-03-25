@@ -1,9 +1,11 @@
-// interface BookmakerApi {
-//   data: string;
-// }
-
 declare global {
-  // const api: BookmakerApi;
+  interface Window {
+    germesData: {
+      doStakeTime: Date;
+      betProcessingStep: string;
+      betProcessingAdditionalInfo: string;
+    };
+  }
 }
 
 export default {};

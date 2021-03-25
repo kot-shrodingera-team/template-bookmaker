@@ -1,9 +1,19 @@
 import getCurrentSumGenerator from '@kot-shrodingera-team/germes-generators/stake_info/getCurrentSum';
 
+export const sumInputSelector = '';
+
 const getCurrentSum = getCurrentSumGenerator({
-  sumInput: '',
+  sumInputSelector,
   zeroValues: [],
+  replaceDataArray: [
+    {
+      searchValue: '',
+      replaceValue: '',
+    },
+  ],
+  removeRegex: /[\s,']/g,
   currentSumRegex: /(\d+(?:\.\d+)?)/,
+  context: () => document,
 });
 
 export default getCurrentSum;

@@ -1,32 +1,30 @@
-import { awaiter, getElement, log } from '@kot-shrodingera-team/germes-utils';
+import {
+  getElement,
+  log,
+  repeatingOpenBet,
+} from '@kot-shrodingera-team/germes-utils';
+import { JsFailError } from '@kot-shrodingera-team/germes-utils/errors';
 import getStakeCount from '../stake_info/getStakeCount';
-import JsFailError from './errors/jsFailError';
 
 const openBet = async (): Promise<void> => {
-  const [betId] = worker.BetId.split('_');
+  // Получение данных из меты
+  const { selection_id: betId } = JSON.parse(worker.BetId);
 
-  const bet = (await getElement(`[id*="${betId}"]`)) as HTMLElement;
+  // Формирование данных для поиска
+  const betSelector = `[id*="${betId}"]`;
+  log(`betSelector = [id*="${betId}"]`, 'white', true);
 
+  // Поиск ставки
+  const bet = await getElement<HTMLElement>(betSelector);
   if (!bet) {
     throw new JsFailError('Ставка не найдена');
   }
 
-  const maxTryCount = 5;
-  for (let i = 1; i <= maxTryCount; i += 1) {
+  // Открытие ставки, проверка, что ставка попала в купон
+  const openingAction = async () => {
     bet.click();
-    // eslint-disable-next-line no-await-in-loop
-    const betAdded = await awaiter(() => getStakeCount() === 1, 1000, 50);
-
-    if (!betAdded) {
-      if (i === maxTryCount) {
-        throw new JsFailError('Ставка так и не попала в купон');
-      }
-      log(`Ставка не попала в купон (попытка ${i})`, 'steelblue');
-    } else {
-      log('Ставка попала в купон', 'steelblue');
-      break;
-    }
-  }
+  };
+  repeatingOpenBet(openingAction, getStakeCount, 5, 1000, 50);
 };
 
 export default openBet;

@@ -3,28 +3,30 @@ import {
   getBalanceGenerator,
 } from '@kot-shrodingera-team/germes-generators/stake_info/getBalance';
 
+export const balanceSelector = '';
+const balanceRegex = /(\d+(?:\.\d+)?)/;
+const replaceDataArray = [
+  {
+    searchValue: '',
+    replaceValue: '',
+  },
+];
+const removeRegex = /[\s,']/g;
+
 export const balanceReady = balanceReadyGenerator({
-  balanceSelector: '',
-  balanceRegex: /(\d+(?:\.\d+)?)/,
-  replaceDataArray: [
-    {
-      searchValue: '',
-      replaceValue: '',
-    },
-  ],
-  removeRegex: /[\s,']/g,
+  balanceSelector,
+  balanceRegex,
+  replaceDataArray,
+  removeRegex,
+  context: () => document,
 });
 
 const getBalance = getBalanceGenerator({
-  balanceSelector: '',
-  balanceRegex: /(\d+(?:\.\d+)?)/,
-  replaceDataArray: [
-    {
-      searchValue: '',
-      replaceValue: '',
-    },
-  ],
-  removeRegex: /[\s,']/g,
+  balanceSelector,
+  balanceRegex,
+  replaceDataArray,
+  removeRegex,
+  context: () => document,
 });
 
 export const updateBalance = (): void => {
