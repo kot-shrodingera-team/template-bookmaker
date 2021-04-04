@@ -4,6 +4,8 @@ import { JsFailError } from '@kot-shrodingera-team/germes-utils/errors';
 import openBet from '../show_stake/openBet';
 import { getDoStakeTime } from '../stake_info/doStakeTime';
 
+const bookmakerName = '';
+
 const timeout = 50000;
 const getRemainingTimeout = (maximum?: number) => {
   const result = timeout - (new Date().getTime() - getDoStakeTime().getTime());
@@ -20,12 +22,23 @@ const asyncCheck = async () => {
     }
     window.germesData.betProcessingStep = 'error';
   };
-  const success = (message: string) => {
-    log(message, 'steelblue');
+  const errorInform = (message: string) => {
+    log(message, 'crimson');
+    worker.Helper.SendInformedMessage(
+      `В ${bookmakerName} произошла ошибка принятия ставки:\n${message}\n`
+    );
+    window.germesData.betProcessingStep = 'error';
+  };
+  const success = (message?: string) => {
+    if (message !== undefined) {
+      log(message, 'steelblue');
+    }
     window.germesData.betProcessingStep = 'success';
   };
-  const reopen = async (message: string) => {
-    log(message, 'crimson');
+  const reopen = async (message?: string) => {
+    if (message !== undefined) {
+      log(message, 'crimson');
+    }
     window.germesData.betProcessingStep = 'reopen';
     log('Переоткрываем купон', 'orange');
     try {
@@ -123,7 +136,7 @@ const check = () => {
 
 const checkCouponLoading = checkCouponLoadingGenerator({
   getDoStakeTime,
-  bookmakerName: '',
+  bookmakerName,
   timeout,
   check,
 });

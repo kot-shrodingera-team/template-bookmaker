@@ -24,7 +24,29 @@ const openBet = async (): Promise<void> => {
   const openingAction = async () => {
     bet.click();
   };
-  repeatingOpenBet(openingAction, getStakeCount, 5, 1000, 50);
+  await repeatingOpenBet(openingAction, getStakeCount, 5, 1000, 50);
+
+  const eventNameSelector = '';
+  const marketNameSelector = '';
+  const betNameSelector = '';
+
+  const eventNameElement = document.querySelector(eventNameSelector);
+  if (!eventNameElement) {
+    throw new JsFailError('Не найдено событие открытой ставки');
+  }
+  const marketNameElement = document.querySelector(marketNameSelector);
+  if (!marketNameElement) {
+    throw new JsFailError('Не найден маркет открытой ставки');
+  }
+  const betNameElement = document.querySelector(betNameSelector);
+  if (!betNameElement) {
+    throw new JsFailError('Не найдена роспись открытой ставки');
+  }
+
+  const eventName = eventNameElement.textContent.trim();
+  const marketName = marketNameElement.textContent.trim();
+  const betName = betNameElement.textContent.trim();
+  log(`Открыта ставка\n${eventName}\n${marketName}\n${betName}`, 'steelblue');
 };
 
 export default openBet;

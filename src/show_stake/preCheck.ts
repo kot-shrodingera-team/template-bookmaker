@@ -1,4 +1,4 @@
-import { checkUrl, log } from '@kot-shrodingera-team/germes-utils';
+import { checkBookerHost, log } from '@kot-shrodingera-team/germes-utils';
 import {
   JsFailError,
   NewUrlError,
@@ -8,7 +8,7 @@ import { updateBalance } from '../stake_info/getBalance';
 import clearCoupon from './clearCoupon';
 
 const preCheck = async (): Promise<void> => {
-  if (!checkUrl()) {
+  if (!checkBookerHost()) {
     log('Открыта не страница конторы (или зеркала)', 'crimson');
     window.location.href = new URL(worker.BookmakerMainUrl).href;
     throw new NewUrlError('Открываем страницу БК');

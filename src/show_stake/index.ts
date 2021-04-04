@@ -11,8 +11,10 @@ import setBetAcceptMode from './setBetAcceptMode';
 const showStake = async (): Promise<void> => {
   localStorage.setItem('couponOpening', '1');
   try {
-    log(`Событие: ${worker.TeamOne} vs ${worker.TeamTwo}`, 'steelblue');
-    log(`Ставка: ${worker.BetName}`, 'steelblue');
+    log(
+      `Открываем ставку:\n${worker.TeamOne} vs ${worker.TeamTwo}\n${worker.BetName}`,
+      'steelblue'
+    );
     await preCheck();
     await openEvent();
     await openBet();
@@ -34,6 +36,8 @@ const showStake = async (): Promise<void> => {
         'red'
       );
       log(error.message, 'red');
+      // eslint-disable-next-line no-console
+      console.trace();
       localStorage.setItem('couponOpening', '0');
       worker.JSFail();
     }

@@ -9,9 +9,7 @@ import getMinimumStake from '../stake_info/getMinimumStake';
 import getMaximumStake from '../stake_info/getMaximumStake';
 import getCurrentSum from '../stake_info/getCurrentSum';
 
-const preAction = (): boolean => {
-  return true;
-};
+const preAction = (): void => {};
 
 const getStakeInfo = getStakeInfoGenerator({
   preAction,

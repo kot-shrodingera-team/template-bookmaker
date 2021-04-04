@@ -7,6 +7,7 @@ const preCheck = (): boolean => {
 };
 
 const postCheck = (): boolean => {
+  window.germesData.betProcessingStep = 'beforeStart';
   return true;
 };
 
