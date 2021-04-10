@@ -10,6 +10,7 @@ const fastLoad = async (): Promise<void> => {
     log('Предыдущее переоткрытие купона незавершено', 'red');
     worker.SetSessionData(`${window.germesData.bookmakerName}.ShowStake`, '0');
     worker.JSFail();
+    window.location.reload();
     return;
   }
   log(`Быстрая загрузка (${version})`, 'steelblue');
