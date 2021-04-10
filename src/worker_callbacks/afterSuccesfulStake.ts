@@ -1,5 +1,5 @@
 // import getCoefficientGenerator from '@kot-shrodingera-team/germes-generators/stake_info/getCoefficient';
-import { log } from '@kot-shrodingera-team/germes-utils';
+import { getWorkerParameter, log } from '@kot-shrodingera-team/germes-utils';
 import getCoefficient from '../stake_info/getCoefficient';
 
 // const getResultCoefficientText = (): string => {
@@ -23,9 +23,12 @@ import getCoefficient from '../stake_info/getCoefficient';
 const getResultCoefficient = getCoefficient;
 
 const afterSuccesfulStake = (): void => {
+  if (getWorkerParameter('fakeDoStake')) {
+    return;
+  }
   log('Обновление итогового коэффициента', 'steelblue');
   const resultCoefficient = getResultCoefficient();
-  if (resultCoefficient && resultCoefficient !== worker.StakeInfo.Coef) {
+  if (resultCoefficient !== worker.StakeInfo.Coef) {
     log(
       `Коеффициент изменился: ${worker.StakeInfo.Coef} => ${resultCoefficient}`,
       'orange'

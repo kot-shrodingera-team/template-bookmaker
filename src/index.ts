@@ -23,10 +23,15 @@ worker.SetCallBacks(
 worker.SetFastCallback(fastLoad);
 
 (async (): Promise<void> => {
-  if (localStorage.getItem('couponOpening') === '1' && worker.IsShowStake) {
+  if (
+    worker.GetSessionData(`${window.germesData.bookmakerName}.ShowStake`) ===
+      '1' &&
+    worker.IsShowStake
+  ) {
     log('Загрузка страницы с открытием купона', 'steelblue');
     showStake();
   } else if (!worker.IsShowStake) {
+    worker.SetSessionData(`${window.germesData.bookmakerName}.ShowStake`, '0');
     log('Загрузка страницы с авторизацией', 'steelblue');
     initialize();
   } else {

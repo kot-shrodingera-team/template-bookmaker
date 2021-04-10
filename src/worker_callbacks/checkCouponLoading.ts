@@ -1,69 +1,22 @@
 import checkCouponLoadingGenerator from '@kot-shrodingera-team/germes-generators/worker_callbacks/checkCouponLoading';
-import { log, getElement, awaiter } from '@kot-shrodingera-team/germes-utils';
-import { JsFailError } from '@kot-shrodingera-team/germes-utils/errors';
-import openBet from '../show_stake/openBet';
-import { getDoStakeTime } from '../stake_info/doStakeTime';
+import {
+  log,
+  getElement,
+  awaiter,
+  getRemainingTimeout,
+  checkCouponLoadingError,
+  checkCouponLoadingSuccess,
+} from '@kot-shrodingera-team/germes-utils';
 
-const bookmakerName = '';
-
-const timeout = 50000;
-const getRemainingTimeout = (maximum?: number) => {
-  const result = timeout - (new Date().getTime() - getDoStakeTime().getTime());
-  if (maximum !== undefined && timeout > maximum) {
-    return maximum;
-  }
-  return result;
-};
+const loaderSelector = '';
+const errorSelector = '';
+const errorTextSelector = '';
+const betPlacedSelector = '';
 
 const asyncCheck = async () => {
-  const error = (message?: string) => {
-    if (message !== undefined) {
-      log(message, 'crimson');
-    }
-    window.germesData.betProcessingStep = 'error';
-  };
-  const errorInform = (message: string) => {
-    log(message, 'crimson');
-    worker.Helper.SendInformedMessage(
-      `В ${bookmakerName} произошла ошибка принятия ставки:\n${message}\n`
-    );
-    window.germesData.betProcessingStep = 'error';
-  };
-  const success = (message?: string) => {
-    if (message !== undefined) {
-      log(message, 'steelblue');
-    }
-    window.germesData.betProcessingStep = 'success';
-  };
-  const reopen = async (message?: string) => {
-    if (message !== undefined) {
-      log(message, 'crimson');
-    }
-    window.germesData.betProcessingStep = 'reopen';
-    log('Переоткрываем купон', 'orange');
-    try {
-      await openBet();
-      log('Ставка успешно переоткрыта', 'green');
-      window.germesData.betProcessingStep = 'reopened';
-    } catch (reopenError) {
-      if (reopenError instanceof JsFailError) {
-        log(reopenError.message, 'red');
-        window.germesData.betProcessingStep = 'error';
-      } else {
-        log(reopenError.message, 'red');
-        window.germesData.betProcessingStep = 'error';
-      }
-    }
-  };
-
-  const loaderSelector = '';
-  const errorSelector = '';
-  const errorTextSelector = '';
-  const betPlacedSelector = '';
-
   window.germesData.betProcessingStep = 'waitingForLoaderOrResult';
 
-  await Promise.any([
+  await Promise.race([
     getElement(loaderSelector, getRemainingTimeout()),
     getElement(errorSelector, getRemainingTimeout()),
     getElement(betPlacedSelector, getRemainingTimeout()),
@@ -88,7 +41,7 @@ const asyncCheck = async () => {
     });
 
     window.germesData.betProcessingStep = 'waitingForResult';
-    await Promise.any([
+    await Promise.race([
       getElement(errorSelector, getRemainingTimeout()),
       getElement(betPlacedSelector, getRemainingTimeout()),
     ]);
@@ -101,17 +54,23 @@ const asyncCheck = async () => {
     log('Ошибка принятия ставки', 'steelblue');
     const errorTextElement = errorElement.querySelector(errorTextSelector);
     if (!errorTextElement) {
-      error('Не найден текст ошибки');
+      return checkCouponLoadingError({
+        botMessage: 'Не найден текст ошибки',
+        informMessage: 'Не найден текст ошибки',
+      });
     }
     const errorText = errorTextElement.textContent.trim();
     log(errorText, 'tomato');
-    return error();
+    return checkCouponLoadingError({});
   }
   if (betPlacedElement) {
-    return success('Ставка принята');
+    return checkCouponLoadingSuccess('Ставка принята');
   }
 
-  return error('Не дождались результата ставки');
+  return checkCouponLoadingError({
+    botMessage: 'Не дождались результата ставки',
+    informMessage: 'Не дождались результата ставки',
+  });
 };
 
 const check = () => {
@@ -126,18 +85,17 @@ const check = () => {
     case 'error':
     case 'success':
     case 'reopened':
-      log(`Обработка ставки завершена (${step})${additionalInfo}`, 'orange');
+      log(`Обработка ставки завершена${additionalInfo}`, 'orange');
+      log(step, 'orange', true);
       return false;
     default:
-      log(`Обработка ставки (${step})${additionalInfo}`, 'tan');
+      log(`Обработка ставки${additionalInfo}`, 'tan');
+      log(step, 'tan', true);
       return true;
   }
 };
 
 const checkCouponLoading = checkCouponLoadingGenerator({
-  getDoStakeTime,
-  bookmakerName,
-  timeout,
   check,
 });
 
