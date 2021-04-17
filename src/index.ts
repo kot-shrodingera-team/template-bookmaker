@@ -11,6 +11,10 @@ import initialize from './initialization';
 import showStake from './show_stake';
 import { clearGermesData } from './bookmakerApi';
 
+window.alert = (message: string): void => {
+  log(`Перехваченный алерт: ${message}`);
+};
+
 worker.SetCallBacks(
   log,
   getStakeInfo,
