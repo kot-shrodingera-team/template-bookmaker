@@ -6,15 +6,79 @@ import {
   getRemainingTimeout,
   checkCouponLoadingError,
   checkCouponLoadingSuccess,
+  text,
 } from '@kot-shrodingera-team/germes-utils';
+import { StateMachine } from '@kot-shrodingera-team/germes-utils/stateMachine';
 
 const loaderSelector = '';
 const errorSelector = '';
-const errorTextSelector = '';
 const betPlacedSelector = '';
 
 const asyncCheck = async () => {
-  window.germesData.betProcessingStep = 'waitingForLoaderOrResult';
+  const machine = new StateMachine();
+
+  machine.promises = {
+    loader: () => getElement(loaderSelector, getRemainingTimeout()),
+    error: () => getElement(errorSelector, getRemainingTimeout()),
+    betPlaced: () => getElement(betPlacedSelector, getRemainingTimeout()),
+  };
+
+  machine.setStates({
+    start: {
+      entry: async () => {
+        log('Начало обработки ставки', 'steelblue');
+      },
+    },
+    loader: {
+      entry: async () => {
+        log('Появился индикатор', 'steelblue');
+        window.germesData.betProcessingAdditionalInfo = 'индикатор';
+        delete machine.promises.loader;
+        machine.promises.loaderDissappeared = () =>
+          awaiter(
+            () => document.querySelector(loaderSelector) === null,
+            getRemainingTimeout()
+          );
+      },
+    },
+    loaderDissappeared: {
+      entry: async () => {
+        log('Исчез индикатор', 'steelblue');
+        window.germesData.betProcessingAdditionalInfo = null;
+        delete machine.promises.loaderDissappeared;
+      },
+    },
+    error: {
+      entry: async () => {
+        log('Появилась ошибка', 'steelblue');
+        window.germesData.betProcessingAdditionalInfo = null;
+        const errorText = text(machine.data.result);
+        log(errorText, 'tomato');
+        worker.Helper.SendInformedMessage(errorText);
+        checkCouponLoadingError({});
+      },
+      final: true,
+    },
+    betPlaced: {
+      entry: async () => {
+        window.germesData.betProcessingAdditionalInfo = null;
+        checkCouponLoadingSuccess('Ставка принята');
+      },
+      final: true,
+    },
+    timeout: {
+      entry: async () => {
+        window.germesData.betProcessingAdditionalInfo = null;
+        checkCouponLoadingError({
+          botMessage: 'Не дождались результата ставки',
+          informMessage: 'Не дождались результата ставки',
+        });
+      },
+      final: true,
+    },
+  });
+
+  machine.start('start');
 
   await Promise.race([
     getElement(loaderSelector, getRemainingTimeout()),
@@ -46,57 +110,10 @@ const asyncCheck = async () => {
       getElement(betPlacedSelector, getRemainingTimeout()),
     ]);
   }
-
-  const errorElement = document.querySelector(errorSelector);
-  const betPlacedElement = document.querySelector(betPlacedSelector);
-
-  if (errorElement) {
-    log('Ошибка принятия ставки', 'steelblue');
-    const errorTextElement = errorElement.querySelector(errorTextSelector);
-    if (!errorTextElement) {
-      return checkCouponLoadingError({
-        botMessage: 'Не найден текст ошибки',
-        informMessage: 'Не найден текст ошибки',
-      });
-    }
-    const errorText = errorTextElement.textContent.trim();
-    log(errorText, 'tomato');
-    return checkCouponLoadingError({});
-  }
-  if (betPlacedElement) {
-    return checkCouponLoadingSuccess('Ставка принята');
-  }
-
-  return checkCouponLoadingError({
-    botMessage: 'Не дождались результата ставки',
-    informMessage: 'Не дождались результата ставки',
-  });
-};
-
-const check = () => {
-  const step = window.germesData.betProcessingStep;
-  const additionalInfo = window.germesData.betProcessingAdditionalInfo
-    ? ` (${window.germesData.betProcessingAdditionalInfo})`
-    : '';
-  switch (step) {
-    case 'beforeStart':
-      asyncCheck();
-      return true;
-    case 'error':
-    case 'success':
-    case 'reopened':
-      log(`Обработка ставки завершена${additionalInfo}`, 'orange');
-      log(step, 'orange', true);
-      return false;
-    default:
-      log(`Обработка ставки${additionalInfo}`, 'tan');
-      log(step, 'tan', true);
-      return true;
-  }
 };
 
 const checkCouponLoading = checkCouponLoadingGenerator({
-  check,
+  asyncCheck,
 });
 
 export default checkCouponLoading;
