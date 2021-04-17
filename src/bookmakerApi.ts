@@ -5,6 +5,8 @@ declare global {
 export const clearGermesData = (): void => {
   window.germesData = {
     bookmakerName: '',
+    minimumStake: undefined,
+    maximumStake: undefined,
     betProcessingStep: undefined,
     betProcessingAdditionalInfo: undefined,
     doStakeTime: undefined,

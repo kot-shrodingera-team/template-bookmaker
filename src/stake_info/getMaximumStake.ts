@@ -1,32 +1,36 @@
-import getMaximumStakeGenerator, {
-  maximumStakeReadyGenerator,
-} from '@kot-shrodingera-team/germes-generators/stake_info/getMaximumStake';
+import getStakeInfoValueGenerator, {
+  stakeInfoValueReadyGenerator,
+} from '@kot-shrodingera-team/germes-generators/stake_info/getStakeInfoValue';
+import { StakeInfoValueOptions } from '@kot-shrodingera-team/germes-generators/stake_info/types';
 
-const maximumStakeSelector = '';
-const maximumStakeRegex = /(\d+(?:\.\d+)?)/;
-const replaceDataArray = [
-  {
-    searchValue: '',
-    replaceValue: '',
+export const maximumStakeSelector = '';
+
+const maximumStakeOptions: StakeInfoValueOptions = {
+  name: 'maximumStake',
+  // fixedValue: () => 0,
+  valueFromText: {
+    text: {
+      // getText: () => '',
+      selector: maximumStakeSelector,
+      context: () => document,
+    },
+    replaceDataArray: [
+      {
+        searchValue: '',
+        replaceValue: '',
+      },
+    ],
+    removeRegex: /[\s,']/g,
+    matchRegex: /(\d+(?:\.\d+)?)/,
+    errorValue: 0,
   },
-];
-const removeRegex = /[\s,']/g;
-
-export const maximumStakeReady = maximumStakeReadyGenerator({
-  maximumStakeSelector,
-  maximumStakeRegex,
-  replaceDataArray,
-  removeRegex,
-  context: () => document,
-});
-
-const getMaximumStake = getMaximumStakeGenerator({
-  maximumStakeSelector,
-  maximumStakeRegex,
-  replaceDataArray,
-  removeRegex,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
-  context: () => document,
-});
+};
+
+const getMaximumStake = getStakeInfoValueGenerator(maximumStakeOptions);
+
+export const maximumStakeReady = stakeInfoValueReadyGenerator(getMaximumStake);
 
 export default getMaximumStake;

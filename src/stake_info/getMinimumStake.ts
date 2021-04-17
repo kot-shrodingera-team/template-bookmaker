@@ -1,32 +1,36 @@
-import getMinimumStakeGenerator, {
-  minimumStakeReadyGenerator,
-} from '@kot-shrodingera-team/germes-generators/stake_info/getMinimumStake';
+import getStakeInfoValueGenerator, {
+  stakeInfoValueReadyGenerator,
+} from '@kot-shrodingera-team/germes-generators/stake_info/getStakeInfoValue';
+import { StakeInfoValueOptions } from '@kot-shrodingera-team/germes-generators/stake_info/types';
 
-const minimumStakeSelector = '';
-const minimumStakeRegex = /(\d+(?:\.\d+)?)/;
-const replaceDataArray = [
-  {
-    searchValue: '',
-    replaceValue: '',
+export const minimumStakeSelector = '';
+
+const minimumStakeOptions: StakeInfoValueOptions = {
+  name: 'minimumStake',
+  // fixedValue: () => 0,
+  valueFromText: {
+    text: {
+      // getText: () => '',
+      selector: minimumStakeSelector,
+      context: () => document,
+    },
+    replaceDataArray: [
+      {
+        searchValue: '',
+        replaceValue: '',
+      },
+    ],
+    removeRegex: /[\s,']/g,
+    matchRegex: /(\d+(?:\.\d+)?)/,
+    errorValue: 0,
   },
-];
-const removeRegex = /[\s,']/g;
-
-export const minimumStakeReady = minimumStakeReadyGenerator({
-  minimumStakeSelector,
-  minimumStakeRegex,
-  replaceDataArray,
-  removeRegex,
-  context: () => document,
-});
-
-const getMinimumStake = getMinimumStakeGenerator({
-  minimumStakeSelector,
-  minimumStakeRegex,
-  replaceDataArray,
-  removeRegex,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
-  context: () => document,
-});
+};
+
+const getMinimumStake = getStakeInfoValueGenerator(minimumStakeOptions);
+
+export const minimumStakeReady = stakeInfoValueReadyGenerator(getMinimumStake);
 
 export default getMinimumStake;

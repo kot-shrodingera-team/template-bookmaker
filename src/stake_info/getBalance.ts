@@ -1,33 +1,37 @@
-import {
-  balanceReadyGenerator,
-  getBalanceGenerator,
-} from '@kot-shrodingera-team/germes-generators/stake_info/getBalance';
+import getStakeInfoValueGenerator, {
+  stakeInfoValueReadyGenerator,
+} from '@kot-shrodingera-team/germes-generators/stake_info/getStakeInfoValue';
+import { StakeInfoValueOptions } from '@kot-shrodingera-team/germes-generators/stake_info/types';
 
 export const balanceSelector = '';
-const balanceRegex = /(\d+(?:\.\d+)?)/;
-const replaceDataArray = [
-  {
-    searchValue: '',
-    replaceValue: '',
+
+const balanceOptions: StakeInfoValueOptions = {
+  name: 'balance',
+  // fixedValue: () => 0,
+  valueFromText: {
+    text: {
+      // getText: () => '',
+      selector: balanceSelector,
+      context: () => document,
+    },
+    replaceDataArray: [
+      {
+        searchValue: '',
+        replaceValue: '',
+      },
+    ],
+    removeRegex: /[\s,']/g,
+    matchRegex: /(\d+(?:\.\d+)?)/,
+    errorValue: 0,
   },
-];
-const removeRegex = /[\s,']/g;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  modifyValue: (value: number, extractType: string) => value,
+  disableLog: false,
+};
 
-export const balanceReady = balanceReadyGenerator({
-  balanceSelector,
-  balanceRegex,
-  replaceDataArray,
-  removeRegex,
-  context: () => document,
-});
+const getBalance = getStakeInfoValueGenerator(balanceOptions);
 
-const getBalance = getBalanceGenerator({
-  balanceSelector,
-  balanceRegex,
-  replaceDataArray,
-  removeRegex,
-  context: () => document,
-});
+export const balanceReady = stakeInfoValueReadyGenerator(getBalance);
 
 export const updateBalance = (): void => {
   worker.JSBalanceChange(getBalance());
