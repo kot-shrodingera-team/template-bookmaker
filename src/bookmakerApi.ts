@@ -9,6 +9,11 @@ export const clearGermesData = (): void => {
     betProcessingAdditionalInfo: undefined,
     doStakeTime: undefined,
     betProcessingTimeout: 50000,
+    stakeDisabled: undefined,
+    stopBetProcessing: () => {
+      window.germesData.betProcessingStep = 'error';
+      window.germesData.stakeDisabled = true;
+    },
   };
 };
 
