@@ -18,7 +18,7 @@ const openBet = async (): Promise<void> => {
 
   // Формирование данных для поиска
   const betSelector = `[id*="${betId}"]`;
-  log(`betSelector = [id*="${betId}"]`, 'white', true);
+  log(`betSelector = "${betSelector}"`, 'white', true);
 
   // Поиск ставки
   const bet = await getElement<HTMLElement>(betSelector);
