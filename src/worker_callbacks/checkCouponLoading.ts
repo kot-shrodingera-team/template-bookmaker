@@ -79,37 +79,6 @@ const asyncCheck = async () => {
   });
 
   machine.start('start');
-
-  await Promise.race([
-    getElement(loaderSelector, getRemainingTimeout()),
-    getElement(errorSelector, getRemainingTimeout()),
-    getElement(betPlacedSelector, getRemainingTimeout()),
-  ]);
-
-  const loaderElement = document.querySelector(loaderSelector);
-
-  if (loaderElement) {
-    log('Появился индикатор', 'steelblue');
-    window.germesData.betProcessingAdditionalInfo = 'индикатор';
-    awaiter(
-      () => {
-        return document.querySelector(loaderSelector) === null;
-      },
-      getRemainingTimeout(),
-      100
-    ).then((loaderDissappeared) => {
-      if (loaderDissappeared) {
-        log('Исчез индикатор', 'steelblue');
-        window.germesData.betProcessingAdditionalInfo = null;
-      }
-    });
-
-    window.germesData.betProcessingStep = 'waitingForResult';
-    await Promise.race([
-      getElement(errorSelector, getRemainingTimeout()),
-      getElement(betPlacedSelector, getRemainingTimeout()),
-    ]);
-  }
 };
 
 const checkCouponLoading = checkCouponLoadingGenerator({
