@@ -24,6 +24,7 @@ const coefficientOptions: StakeInfoValueOptions = {
     matchRegex: /(\d+(?:\.\d+)?)/,
     errorValue: 0,
   },
+  zeroValues: [],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
@@ -31,6 +32,8 @@ const coefficientOptions: StakeInfoValueOptions = {
 
 const getCoefficient = getStakeInfoValueGenerator(coefficientOptions);
 
-export const coefficientReady = stakeInfoValueReadyGenerator(getCoefficient);
+export const coefficientReady = stakeInfoValueReadyGenerator(
+  coefficientOptions
+);
 
 export default getCoefficient;

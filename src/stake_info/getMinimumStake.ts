@@ -24,6 +24,7 @@ const minimumStakeOptions: StakeInfoValueOptions = {
     matchRegex: /(\d+(?:\.\d+)?)/,
     errorValue: 0,
   },
+  zeroValues: [],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
@@ -31,6 +32,8 @@ const minimumStakeOptions: StakeInfoValueOptions = {
 
 const getMinimumStake = getStakeInfoValueGenerator(minimumStakeOptions);
 
-export const minimumStakeReady = stakeInfoValueReadyGenerator(getMinimumStake);
+export const minimumStakeReady = stakeInfoValueReadyGenerator(
+  minimumStakeOptions
+);
 
 export default getMinimumStake;

@@ -24,6 +24,7 @@ const balanceOptions: StakeInfoValueOptions = {
     matchRegex: /(\d+(?:\.\d+)?)/,
     errorValue: 0,
   },
+  zeroValues: [],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
@@ -31,7 +32,7 @@ const balanceOptions: StakeInfoValueOptions = {
 
 const getBalance = getStakeInfoValueGenerator(balanceOptions);
 
-export const balanceReady = stakeInfoValueReadyGenerator(getBalance);
+export const balanceReady = stakeInfoValueReadyGenerator(balanceOptions);
 
 export const updateBalance = (): void => {
   worker.JSBalanceChange(getBalance());

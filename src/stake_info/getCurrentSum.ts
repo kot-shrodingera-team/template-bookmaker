@@ -24,6 +24,7 @@ const currentSumOptions: StakeInfoValueOptions = {
     matchRegex: /(\d+(?:\.\d+)?)/,
     errorValue: 0,
   },
+  zeroValues: [''],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
@@ -31,6 +32,6 @@ const currentSumOptions: StakeInfoValueOptions = {
 
 const getCurrentSum = getStakeInfoValueGenerator(currentSumOptions);
 
-export const currentSumReady = stakeInfoValueReadyGenerator(getCurrentSum);
+export const currentSumReady = stakeInfoValueReadyGenerator(currentSumOptions);
 
 export default getCurrentSum;

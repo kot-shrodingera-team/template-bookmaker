@@ -24,6 +24,7 @@ const maximumStakeOptions: StakeInfoValueOptions = {
     matchRegex: /(\d+(?:\.\d+)?)/,
     errorValue: 0,
   },
+  zeroValues: [],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   modifyValue: (value: number, extractType: string) => value,
   disableLog: false,
@@ -31,6 +32,8 @@ const maximumStakeOptions: StakeInfoValueOptions = {
 
 const getMaximumStake = getStakeInfoValueGenerator(maximumStakeOptions);
 
-export const maximumStakeReady = stakeInfoValueReadyGenerator(getMaximumStake);
+export const maximumStakeReady = stakeInfoValueReadyGenerator(
+  maximumStakeOptions
+);
 
 export default getMaximumStake;
