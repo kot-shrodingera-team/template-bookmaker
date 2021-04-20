@@ -1,4 +1,8 @@
-import { getWorkerParameter, log } from '@kot-shrodingera-team/germes-utils';
+import {
+  getWorkerParameter,
+  log,
+  text,
+} from '@kot-shrodingera-team/germes-utils';
 
 const getParameter = (): number => {
   if (
@@ -27,8 +31,8 @@ const getParameter = (): number => {
     return -9999;
   }
 
-  const marketName = marketNameElement.textContent.trim();
-  const betName = betNameElement.textContent.trim();
+  const marketName = text(marketNameElement);
+  const betName = text(betNameElement);
 
   if (marketName === 'Draw No Bet') {
     return 0;
