@@ -32,8 +32,7 @@ const maximumStakeOptions: StakeInfoValueOptions = {
 
 const getMaximumStake = getStakeInfoValueGenerator(maximumStakeOptions);
 
-export const maximumStakeReady = stakeInfoValueReadyGenerator(
-  maximumStakeOptions
-);
+export const maximumStakeReady =
+  stakeInfoValueReadyGenerator(maximumStakeOptions);
 
 export default getMaximumStake;

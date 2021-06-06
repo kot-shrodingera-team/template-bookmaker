@@ -32,8 +32,7 @@ const coefficientOptions: StakeInfoValueOptions = {
 
 const getCoefficient = getStakeInfoValueGenerator(coefficientOptions);
 
-export const coefficientReady = stakeInfoValueReadyGenerator(
-  coefficientOptions
-);
+export const coefficientReady =
+  stakeInfoValueReadyGenerator(coefficientOptions);
 
 export default getCoefficient;

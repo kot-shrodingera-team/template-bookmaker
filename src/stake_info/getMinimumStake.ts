@@ -32,8 +32,7 @@ const minimumStakeOptions: StakeInfoValueOptions = {
 
 const getMinimumStake = getStakeInfoValueGenerator(minimumStakeOptions);
 
-export const minimumStakeReady = stakeInfoValueReadyGenerator(
-  minimumStakeOptions
-);
+export const minimumStakeReady =
+  stakeInfoValueReadyGenerator(minimumStakeOptions);
 
 export default getMinimumStake;
