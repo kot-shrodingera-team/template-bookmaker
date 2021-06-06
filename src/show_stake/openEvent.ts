@@ -7,7 +7,6 @@ const openEvent = async (): Promise<void> => {
     return;
   }
   log(`${window.location.href} !== ${worker.EventUrl}`, 'white', true);
-  log('Переходим на событие', 'orange');
   window.location.href = worker.EventUrl;
   throw new NewUrlError('Переходим на событие');
 };
