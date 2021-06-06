@@ -2,6 +2,7 @@ import {
   getElement,
   log,
   repeatingOpenBet,
+  text,
 } from '@kot-shrodingera-team/germes-utils';
 import { JsFailError } from '@kot-shrodingera-team/germes-utils/errors';
 import getStakeCount from '../stake_info/getStakeCount';
@@ -50,9 +51,9 @@ const openBet = async (): Promise<void> => {
     throw new JsFailError('Не найдена роспись открытой ставки');
   }
 
-  const eventName = eventNameElement.textContent.trim();
-  const marketName = marketNameElement.textContent.trim();
-  const betName = betNameElement.textContent.trim();
+  const eventName = text(eventNameElement);
+  const marketName = text(marketNameElement);
+  const betName = text(betNameElement);
 
   log(`Открыта ставка\n${eventName}\n${marketName}\n${betName}`, 'steelblue');
 };
