@@ -7,9 +7,9 @@ export const clearGermesData = (): void => {
     bookmakerName: '',
     minimumStake: undefined,
     maximumStake: undefined,
+    doStakeTime: undefined,
     betProcessingStep: undefined,
     betProcessingAdditionalInfo: undefined,
-    doStakeTime: undefined,
     betProcessingTimeout: 50000,
     stakeDisabled: undefined,
     stopBetProcessing: () => {
