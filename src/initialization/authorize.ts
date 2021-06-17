@@ -7,6 +7,10 @@ const setLoginType = async (): Promise<boolean> => {
   return true;
 };
 
+const beforeSubmitCheck = async (): Promise<boolean> => {
+  return true;
+};
+
 const authorize = authorizeGenerator({
   openForm: {
     selector: '',
@@ -22,6 +26,7 @@ const authorize = authorizeGenerator({
   inputType: 'fireEvent',
   fireEventNames: ['input'],
   beforeSubmitDelay: 0,
+  beforeSubmitCheck,
   captchaSelector: '',
   loginedWait: {
     loginedSelector: authElementSelector,
