@@ -35,7 +35,7 @@ const openEvent = async (): Promise<void> => {
     log('Открыли нужное событие', 'steelblue');
     return;
   }
-  log(`${window.location.href} !== ${worker.EventUrl}`, 'white', true);
+  log(`${window.location.href} !== ${worker.EventUrl}`, 'crimson');
   throw new JsFailError('Не удалось перейти на нужное событие');
 };
 
