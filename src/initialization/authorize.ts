@@ -3,7 +3,7 @@ import { authElementSelector } from '../stake_info/checkAuth';
 import { updateBalance, balanceReady } from '../stake_info/getBalance';
 import afterSuccesfulLogin from './afterSuccesfulLogin';
 
-const setLoginType = async (): Promise<boolean> => {
+const preInputCheck = async (): Promise<boolean> => {
   return true;
 };
 
@@ -19,7 +19,7 @@ const authorize = authorizeGenerator({
     triesInterval: 1000,
     afterOpenDelay: 0,
   },
-  setLoginType,
+  preInputCheck,
   loginInputSelector: '',
   passwordInputSelector: '',
   submitButtonSelector: '',
