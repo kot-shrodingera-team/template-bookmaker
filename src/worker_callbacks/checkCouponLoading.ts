@@ -7,6 +7,7 @@ import {
   checkCouponLoadingError,
   checkCouponLoadingSuccess,
   text,
+  sendTGBotMessage,
 } from '@kot-shrodingera-team/germes-utils';
 import { StateMachine } from '@kot-shrodingera-team/germes-utils/stateMachine';
 
@@ -55,6 +56,11 @@ const asyncCheck = async () => {
         const errorText = text(machine.data.result);
         log(errorText, 'tomato');
         worker.Helper.SendInformedMessage(errorText);
+        sendTGBotMessage(
+          '1786981726:AAE35XkwJRsuReonfh1X2b8E7k9X4vknC_s',
+          126302051,
+          errorText
+        );
         checkCouponLoadingError({});
       },
       final: true,
