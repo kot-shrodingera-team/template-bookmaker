@@ -53,7 +53,7 @@ const asyncCheck = async () => {
       entry: async () => {
         log('Появилась ошибка', 'steelblue');
         window.germesData.betProcessingAdditionalInfo = null;
-        const errorText = text(machine.data.result);
+        const errorText = text(machine.data.result as HTMLElement);
         log(errorText, 'tomato');
         worker.Helper.SendInformedMessage(errorText);
         sendTGBotMessage(
@@ -62,15 +62,15 @@ const asyncCheck = async () => {
           errorText
         );
         checkCouponLoadingError({});
+        machine.end = true;
       },
-      final: true,
     },
     betPlaced: {
       entry: async () => {
         window.germesData.betProcessingAdditionalInfo = null;
         checkCouponLoadingSuccess('Ставка принята');
+        machine.end = true;
       },
-      final: true,
     },
     timeout: {
       entry: async () => {
@@ -79,8 +79,8 @@ const asyncCheck = async () => {
           botMessage: 'Не дождались результата ставки',
           informMessage: 'Не дождались результата ставки',
         });
+        machine.end = true;
       },
-      final: true,
     },
   });
 

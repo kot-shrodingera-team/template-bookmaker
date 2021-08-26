@@ -1,8 +1,12 @@
 declare global {
   // interface GermesData {}
+  // interface Window {}
 }
 
 export const clearGermesData = (): void => {
+  if (window.germesData && window.germesData.updateManualDataIntervalId) {
+    clearInterval(window.germesData.updateManualDataIntervalId);
+  }
   window.germesData = {
     bookmakerName: '',
     minimumStake: undefined,
@@ -16,6 +20,12 @@ export const clearGermesData = (): void => {
       window.germesData.betProcessingStep = 'error';
       window.germesData.stakeDisabled = true;
     },
+    updateManualDataIntervalId: undefined,
+    stopUpdateManualData: undefined,
+    manualMaximumStake: undefined,
+    manualCoefficient: undefined,
+    manualParameter: undefined,
+    manualStakeEnabled: undefined,
   };
 };
 
