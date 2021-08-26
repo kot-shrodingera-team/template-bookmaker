@@ -1,4 +1,5 @@
-// import getCoefficientGenerator from '@kot-shrodingera-team/germes-generators/stake_info/getCoefficient';
+// import getStakeInfoValueGenerator from '@kot-shrodingera-team/germes-generators/stake_info/getStakeInfoValue';
+// import { StakeInfoValueOptions } from '@kot-shrodingera-team/germes-generators/stake_info/types';
 import { getWorkerParameter, log } from '@kot-shrodingera-team/germes-utils';
 import getCoefficient from '../stake_info/getCoefficient';
 
@@ -6,19 +7,36 @@ import getCoefficient from '../stake_info/getCoefficient';
 //   return null;
 // };
 
-// const getResultCoefficient = getCoefficientGenerator({
-//   coefficientSelector: '',
-//   getCoefficientText: getResultCoefficientText,
-//   replaceDataArray: [
-//     {
-//       searchValue: '',
-//       replaceValue: '',
+// export const resultCoefficientSelector = '';
+
+// const resultCoefficientOptions: StakeInfoValueOptions = {
+//   name: 'coefficient',
+//   // fixedValue: () => 0,
+//   valueFromText: {
+//     text: {
+//       // getText: getResultCoefficientText,
+//       selector: resultCoefficientSelector,
+//       context: () => document,
 //     },
-//   ],
-//   removeRegex: /[\s,']/g,
-//   coefficientRegex: /(\d+(?:\.\d+)?)/,
-//   context: () => document,
-// });
+//     replaceDataArray: [
+//       {
+//         searchValue: '',
+//         replaceValue: '',
+//       },
+//     ],
+//     removeRegex: /[\s,']/g,
+//     matchRegex: /(\d+(?:\.\d+)?)/,
+//     errorValue: 0,
+//   },
+//   zeroValues: [],
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   modifyValue: (value: number, extractType: string) => value,
+//   disableLog: false,
+// };
+
+// const getResultCoefficient = getStakeInfoValueGenerator(
+//   resultCoefficientOptions
+// );
 
 const getResultCoefficient = getCoefficient;
 
