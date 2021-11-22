@@ -42,7 +42,7 @@ const openBet = async (): Promise<void> => {
   const openingAction = async () => {
     bet.click();
   };
-  await repeatingOpenBet(openingAction, getStakeCount, 5, 1000, 50);
+  await repeatingOpenBet(openingAction, getStakeCount, 1, 1000, 50);
 
   /* ======================================================================== */
   /*                    Вывод информации об открытой ставке                   */

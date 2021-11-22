@@ -1,25 +1,43 @@
 import checkCouponLoadingGenerator from '@kot-shrodingera-team/germes-generators/worker_callbacks/checkCouponLoading';
 import {
-  log,
+  getWorkerParameter,
   getElement,
-  awaiter,
   getRemainingTimeout,
-  checkCouponLoadingError,
-  checkCouponLoadingSuccess,
+  sleep,
+  log,
+  awaiter,
   text,
   sendTGBotMessage,
 } from '@kot-shrodingera-team/germes-utils';
+import {
+  sendErrorMessage,
+  betProcessingError,
+  betProcessingCompltete,
+} from '@kot-shrodingera-team/germes-utils/betProcessing';
 import { StateMachine } from '@kot-shrodingera-team/germes-utils/stateMachine';
 
 const loaderSelector = '';
 const errorSelector = '';
 const betPlacedSelector = '';
 
+const loaderNotAppearedTimeout = getWorkerParameter<number>(
+  'betProcessingStartDelay',
+  'number'
+);
+const noResultAfterLoaderDisappearedTimeout =
+  getWorkerParameter<number>(
+    'betProcessingLoaderDissapearMaxDelay',
+    'number'
+  ) || 3000;
+
 const asyncCheck = async () => {
   const machine = new StateMachine();
 
   machine.promises = {
     loader: () => getElement(loaderSelector, getRemainingTimeout()),
+    ...(loaderNotAppearedTimeout
+      ? { loaderNotAppeared: sleep(loaderNotAppearedTimeout) }
+      : {}),
     error: () => getElement(errorSelector, getRemainingTimeout()),
     betPlaced: () => getElement(betPlacedSelector, getRemainingTimeout()),
   };
@@ -30,11 +48,20 @@ const asyncCheck = async () => {
         log('Начало обработки ставки', 'steelblue');
       },
     },
+    loaderNotAppeared: {
+      entry: async () => {
+        const message = `Индикатор или результат не появился в течении ${loaderNotAppearedTimeout} мс`;
+        log(message, 'crimson');
+        sendErrorMessage(message);
+        betProcessingError(machine);
+      },
+    },
     loader: {
       entry: async () => {
         log('Появился индикатор', 'steelblue');
         window.germesData.betProcessingAdditionalInfo = 'индикатор';
         delete machine.promises.loader;
+        delete machine.promises.loaderNotAppeared;
         machine.promises.loaderDissappeared = () =>
           awaiter(
             () => document.querySelector(loaderSelector) === null,
@@ -45,41 +72,44 @@ const asyncCheck = async () => {
     loaderDissappeared: {
       entry: async () => {
         log('Исчез индикатор', 'steelblue');
-        window.germesData.betProcessingAdditionalInfo = null;
+        window.germesData.betProcessingAdditionalInfo = undefined;
         delete machine.promises.loaderDissappeared;
+        machine.promises.noResultAfterLoaderDisappeared = () =>
+          sleep(noResultAfterLoaderDisappearedTimeout);
       },
     },
     error: {
       entry: async () => {
         log('Появилась ошибка', 'steelblue');
-        window.germesData.betProcessingAdditionalInfo = null;
-        const errorText = text(machine.data.result as HTMLElement);
+        window.germesData.betProcessingAdditionalInfo = undefined;
+        const errorText = text(<HTMLElement>machine.data.result);
         log(errorText, 'tomato');
-        worker.Helper.SendInformedMessage(errorText);
-        sendTGBotMessage(
-          '1786981726:AAE35XkwJRsuReonfh1X2b8E7k9X4vknC_s',
-          126302051,
-          errorText
-        );
-        checkCouponLoadingError({});
-        machine.end = true;
+        if (/Ошибка/i.test(errorText)) {
+          //
+        } else {
+          sendErrorMessage(errorText);
+          sendTGBotMessage(
+            '1786981726:AAE35XkwJRsuReonfh1X2b8E7k9X4vknC_s',
+            126302051,
+            errorText
+          );
+        }
+        betProcessingError(machine);
       },
     },
     betPlaced: {
       entry: async () => {
-        window.germesData.betProcessingAdditionalInfo = null;
-        checkCouponLoadingSuccess('Ставка принята');
-        machine.end = true;
+        window.germesData.betProcessingAdditionalInfo = undefined;
+        betProcessingCompltete(machine);
       },
     },
     timeout: {
       entry: async () => {
-        window.germesData.betProcessingAdditionalInfo = null;
-        checkCouponLoadingError({
-          botMessage: 'Не дождались результата ставки',
-          informMessage: 'Не дождались результата ставки',
-        });
-        machine.end = true;
+        window.germesData.betProcessingAdditionalInfo = undefined;
+        const message = 'Не дождались результата ставки';
+        log(message, 'crimson');
+        sendErrorMessage(message);
+        betProcessingError(machine);
       },
     },
   });
@@ -89,6 +119,7 @@ const asyncCheck = async () => {
 
 const checkCouponLoading = checkCouponLoadingGenerator({
   asyncCheck,
+  disableLog: false,
 });
 
 export default checkCouponLoading;

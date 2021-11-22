@@ -5,6 +5,10 @@ const preCheck = (): boolean => {
   return true;
 };
 
+// const apiMethod = (): boolean => {
+//   return true;
+// };
+
 const postCheck = (): boolean => {
   return true;
 };
@@ -12,6 +16,7 @@ const postCheck = (): boolean => {
 const doStake = doStakeGenerator({
   preCheck,
   doStakeButtonSelector: '',
+  // apiMethod,
   errorClasses: [
     {
       className: '',

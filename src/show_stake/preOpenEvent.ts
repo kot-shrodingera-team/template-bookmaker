@@ -18,7 +18,7 @@ const preOpenEvent = async (): Promise<void> => {
 
   if (!checkBookerHost()) {
     log('Открыта не страница конторы (или зеркала)', 'crimson');
-    log(`${window.location.href} !== ${worker.BookmakerMainUrl}`, 'crimson');
+    log(`${window.location.host} !== ${worker.BookmakerMainUrl}`, 'crimson');
     window.location.href = new URL(worker.BookmakerMainUrl).href;
     throw new NewUrlError('Открываем страницу БК');
   }

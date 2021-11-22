@@ -8,6 +8,10 @@ import { authElementSelector } from '../stake_info/checkAuth';
 import { updateBalance, balanceReady } from '../stake_info/getBalance';
 import afterSuccesfulLogin from './afterSuccesfulLogin';
 
+const preCheck = async (): Promise<boolean> => {
+  return true;
+};
+
 const preInputCheck = async (): Promise<boolean> => {
   return true;
 };
@@ -30,23 +34,30 @@ const beforeSubmitCheck = async (): Promise<boolean> => {
   return true;
 };
 
+const afterSubmitCheck = async (): Promise<boolean> => {
+  return true;
+};
+
 const authorize = authorizeGenerator({
+  preCheck,
   openForm: {
     selector: '',
     openedSelector: '',
-    loopCount: 10,
-    triesInterval: 1000,
+    beforeOpenDelay: 0,
+    loopCount: 1,
+    triesInterval: 0,
     afterOpenDelay: 0,
   },
   preInputCheck,
   loginInputSelector: '',
   passwordInputSelector: '',
+  beforePasswordInputDelay: 0,
   submitButtonSelector: '',
   inputType: 'fireEvent',
   fireEventNames: ['input'],
   beforeSubmitDelay: 0,
   beforeSubmitCheck,
-  captchaSelector: '',
+  afterSubmitCheck,
   loginedWait: {
     loginedSelector: authElementSelector,
     timeout: 5000,
