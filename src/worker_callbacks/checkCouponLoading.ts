@@ -30,6 +30,14 @@ const noResultAfterLoaderDisappearedTimeout =
     'number'
   ) || 3000;
 
+const sendDevTGBotMessage = (message: string): void => {
+  sendTGBotMessage(
+    '1786981726:AAE35XkwJRsuReonfh1X2b8E7k9X4vknC_s',
+    126302051,
+    message
+  );
+};
+
 const asyncCheck = async () => {
   const machine = new StateMachine();
 
@@ -101,11 +109,7 @@ const asyncCheck = async () => {
           //
         } else {
           sendErrorMessage(errorText);
-          sendTGBotMessage(
-            '1786981726:AAE35XkwJRsuReonfh1X2b8E7k9X4vknC_s',
-            126302051,
-            errorText
-          );
+          sendDevTGBotMessage(errorText);
         }
         betProcessingError(machine);
       },
