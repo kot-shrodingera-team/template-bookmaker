@@ -78,6 +78,19 @@ const asyncCheck = async () => {
           sleep(noResultAfterLoaderDisappearedTimeout);
       },
     },
+    noResultAfterLoaderDisappeared: {
+      entry: async () => {
+        log(
+          `Результат не появился в течении ${noResultAfterLoaderDisappearedTimeout} мс после исчезания индикатора`,
+          'steelblue'
+        );
+        window.germesData.betProcessingAdditionalInfo = null;
+        const message = `Результат не появился в течении ${noResultAfterLoaderDisappearedTimeout} мс после исчезания индикатора`;
+        log(message, 'crimson');
+        sendErrorMessage(message);
+        betProcessingError(machine);
+      },
+    },
     error: {
       entry: async () => {
         log('Появилась ошибка', 'steelblue');
