@@ -1,6 +1,6 @@
 import {
-  getElement,
   log,
+  getElement,
   repeatingOpenBet,
   text,
 } from '@kot-shrodingera-team/germes-utils';

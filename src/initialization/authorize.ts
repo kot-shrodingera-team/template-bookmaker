@@ -5,7 +5,7 @@ import authorizeGenerator from '@kot-shrodingera-team/germes-generators/initiali
 //   resolveRecaptcha,
 // } from '@kot-shrodingera-team/germes-utils';
 import { authElementSelector } from '../stake_info/checkAuth';
-import { updateBalance, balanceReady } from '../stake_info/getBalance';
+import { balanceReady, updateBalance } from '../stake_info/getBalance';
 import afterSuccesfulLogin from './afterSuccesfulLogin';
 
 const preCheck = async (): Promise<boolean> => {
@@ -21,7 +21,7 @@ const beforeSubmitCheck = async (): Promise<boolean> => {
   // if (recaptchaIFrame) {
   //   log('Есть капча. Пытаемся решить', 'orange');
   //   try {
-  //     await resolveRecaptcha();
+  //     await resolveRecaptcha(window);
   //   } catch (e) {
   //     if (e instanceof Error) {
   //       log(e.message, 'red');

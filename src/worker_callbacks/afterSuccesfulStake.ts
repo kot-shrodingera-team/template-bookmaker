@@ -3,9 +3,9 @@
 import { getWorkerParameter, log } from '@kot-shrodingera-team/germes-utils';
 import getCoefficient from '../stake_info/getCoefficient';
 
-// const getResultCoefficientText = (): string => {
-//   return null;
-// };
+// // const getResultCoefficientText = (): string => {
+// //   return null;
+// // };
 
 // export const resultCoefficientSelector = '';
 

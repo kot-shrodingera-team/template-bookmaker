@@ -1,7 +1,7 @@
 import {
   checkBookerHost,
-  checkCurrency,
   log,
+  checkCurrency,
 } from '@kot-shrodingera-team/germes-utils';
 import {
   NewUrlError,

@@ -1,13 +1,13 @@
 import checkCouponLoadingGenerator from '@kot-shrodingera-team/germes-generators/worker_callbacks/checkCouponLoading';
 import {
   getWorkerParameter,
+  sendTGBotMessage,
   getElement,
   getRemainingTimeout,
   sleep,
   log,
   awaiter,
   text,
-  sendTGBotMessage,
 } from '@kot-shrodingera-team/germes-utils';
 import {
   sendErrorMessage,

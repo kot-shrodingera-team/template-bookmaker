@@ -1,7 +1,7 @@
 import { log } from '@kot-shrodingera-team/germes-utils';
 import {
-  JsFailError,
   NewUrlError,
+  JsFailError,
 } from '@kot-shrodingera-team/germes-utils/errors';
 
 const openEvent = async (): Promise<void> => {
